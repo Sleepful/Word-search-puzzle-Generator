@@ -15,3 +15,13 @@ sopa de letras normal:
 
 
 	direcciones: n,s,e,o,no,ne,se,so
+
+
+
+	es necesario:
+		matriz de arrays
+		una manera de iterar sobre la matriz
+		indicar direcciones en la matriz
+			algebra de matrices sjsjsjs
+		tener una manera de saber cuando la matriz acaba y operacion falla
+		hmmm 
