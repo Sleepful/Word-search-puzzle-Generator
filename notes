@@ -1,0 +1,17 @@
+
+sopa de letras normal:
+
+	generacion:
+		recibe : tamanho, minimo 5x5, palabras a meter a la sopa
+		devuelve : sopa, o error
+
+	revision:
+		recibe: posicion(x,y) palabra, direccion, palabras 
+
+
+	resolucion:
+		debe generarse conforme se da la generacion
+		devuelve: posicion(x,y) palabra, direccion, palabras
+
+
+	direcciones: n,s,e,o,no,ne,se,so
