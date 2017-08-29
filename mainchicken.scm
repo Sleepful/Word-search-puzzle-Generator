@@ -1,3 +1,64 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; main loops
+
+
+;;;;;;;; sopa de letras silvestre
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; generar matriz x,y
+
+
+
+;;;;;;; letras
+
+(define (genMatriz filas columnas)
+  (match filas
+    [_ #t]
+  )
+)
+
+
+
+(define (abecedario)'(a b c d e f g h i j k l r m n o p q r s t u v w x y z))
+
+;;;;;;; general
+
+;; genera matrix llena de ?
+
+(define(genMatrix columnas filas)	;columnas y filas representan las dimensiones
+  					; (x,y) de la matriz
+	(genMatrix_aux(genFila columnas)filas) 
+					
+)
+
+(define(genMatrix_aux lista filas)
+	(cond
+		((eq? lista '()) '())
+		(#t (cons (genFila filas) (genMatrix_aux (cdr lista) filas)))
+	)
+)
+
+
+;; genera listas llenas de ?
+;; se llama genFILA pero funciona para columnas tambien
+
+(define (genFila n)
+	(genFila_aux n '())
+)
+
+(define (genFila_aux n lista)
+	(cond((= 0 n) '()) 
+	        (#t (cons '? (genFila_aux (- n 1) lista)))
+	)
+)
+
 
 
 
@@ -5,11 +66,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; random
 
+
+;; funcion random, llamarla con su mismo resultado
+;; para generar secuencia pseudo random
+;; nota: no funciona con numeros menores a 10
+
 (define random (lambda(n) 
-
-		 (exp2 n)
-			  ))
-
+		 (exp2 n))
+)
 
 ;; random auxiliares
 
