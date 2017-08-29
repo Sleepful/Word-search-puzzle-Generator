@@ -13,6 +13,11 @@
 
 ;; random auxiliares
 
+(define (random num)
+  (nums_centro(exp2 num))
+)
+
+
 ;; saca los numeros del centro
 (define (nums_centro num)
   (let
@@ -51,7 +56,7 @@
   ))
 
 
-
+;funcion que no se usa, jejeps
 
 (define (fixedlen num)
   (let ((len (len_int num)))
