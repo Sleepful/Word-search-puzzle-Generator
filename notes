@@ -28,3 +28,25 @@ sopa de letras normal:
 
 		random:
 			no funciona con numeros menores a 10
+			falta probarlo mas a fondo
+
+		matriz:
+			insertar palabra
+				select (x,y) (random)
+				select direction
+				lay thing in direction
+				first check if it can be laid in direction
+
+
+
+
+
+
+
+
+
+
+
+
+
+

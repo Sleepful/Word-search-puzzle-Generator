@@ -12,28 +12,58 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; generar matriz x,y
+;;	general
 
 
 
-;;;;;;; letras
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	soup letter
 
-(define (genMatriz filas columnas)
-  (match filas
-    [_ #t]
-  )
+
+(define(word_list_zealot wlist randstep mlist)
+; recieves word list
+; goes through it linearly
+; tries to insert word
+; if succesful repeat with rest of list
+; return #t when complete
+; if fail return #f and backtrack
+; return #f if all recursion fails
+; reuse random (returns it too)
+	(let*
+		((randstep 
+		   	(random randstep))
+			(position(gen_xy randstep wlist)))
+		(cond
+			((word_inserter position word)word_list_zealot)
+			(#t(#t randstep))
+		)
+	)
 )
 
 
+(define(word_inserter position word) #t)
+
+(define(insert_word word direction position) #t)
+
+(define(can_insert_word? word direction position) #t)
+
+(define(fill_matrix_with_letters)#t)
+
+(define (direction)'(n s e w nw ne sw se))
 
 (define (abecedario)'(a b c d e f g h i j k l r m n o p q r s t u v w x y z))
 
-;;;;;;; general
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	general matrix
 
-;; genera matrix llena de ?
+(define(gen_xy randnum wlist)
+; apartir de un random, genera una posicion
+; (x y) basado en el tamanho de la matriz
+)
 
-(define(genMatrix columnas filas)	;columnas y filas representan las dimensiones
-  					; (x,y) de la matriz
+(define(genMatrix columnas filas)	   
+;genera matrix llena de ?. (x,y) de la matriz
+;columnas y filas representan las dimensiones
 	(genMatrix_aux(genFila columnas)filas) 
 					
 )
@@ -64,26 +94,26 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; random
+;;	random
+;;
 
-
-;; funcion random, llamarla con su mismo resultado
-;; para generar secuencia pseudo random
-;; nota: no funciona con numeros menores a 10
 
 (define random (lambda(n) 
+;; esta funcion no se usa
 		 (exp2 n))
 )
 
-;; random auxiliares
 
 (define (random num)
+;; funcion random, llamarla con su mismo resultado
+;; para generar secuencia pseudo random
+;; nota: no funciona con numeros menores a 10
   (nums_centro(exp2 num))
 )
 
 
-;; saca los numeros del centro
 (define (nums_centro num)
+;; saca los numeros del centro
   (let
     (
      (len (len_int num))
@@ -96,8 +126,9 @@
   )))
 
 
-(define (shaveleft num delete) 	;le quita <delete> cantidad de numeros
-  				;a la izquierda de <num>
+(define (shaveleft num delete) 	
+;le quita <delete> cantidad de numeros
+;a la izquierda de <num>
   (
    shaveleft_aux num (- (len_int num) delete)
   ))
@@ -112,17 +143,17 @@
 	  (fxmod num 10)))
   ))
 
-(define (shaveright num delete)	;le quita <delete> cantidad de numeros
-  				;a la derecha de <num>
+(define (shaveright num delete)	
+;le quita <delete> cantidad de numeros
+;a la derecha de <num>
   (cond
 	((= 0 delete) num)
 	(#t (shaveright(fx/ num 10)(- delete 1)))
   ))
 
 
-;funcion que no se usa, jejeps
-
 (define (fixedlen num)
+;funcion que no se usa, jejeps
   (let ((len (len_int num)))
   (cond
 	((impar? len)(+ 1 len))
@@ -130,12 +161,9 @@
    )))
 
 
-
-;; length de un int
-
-
-(define (len_int num)(lenint_aux num 1))
-
+(define (len_int num)
+;length de un int
+(lenint_aux num 1))
 
 (define lenint_aux(lambda(num size)
 		    (cond
@@ -143,16 +171,15 @@
 		    (#t (+ 1 (lenint_aux (fx/ num 10) size)))
 		    )))
 
-;; num impar
 (define (impar? num)
+;num impar
   		(cond
 		 ((>(fxmod num 2)0)#t)
 		 (#t #f)
 		 ))
 
-;; exponencial de un numero^2
-
 (define exp2 (lambda (n)
+;exponencial de un numero^2
   (expt n 2)))
 
 
