@@ -53,13 +53,29 @@
 
 (define (abecedario)'(a b c d e f g h i j k l r m n o p q r s t u v w x y z))
 
+(define(random_dir) #t)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	general matrix
+
+(define(rand_list randnum wlist)
+; devuelve un elem random de un list
+ (n-elem(fxmod randnum (len_list wlist)) wlist)
+)
 
 (define(gen_xy randnum wlist)
 ; apartir de un random, genera una posicion
 ; (x y) basado en el tamanho de la matriz
+	(cons
+	  	
+		(fxmod randnum (len_list wlist))
+		(fxmod (fx/ randnum 10) (len_list (car wlist)))
+		
+	)
 )
+
+
 
 (define(genMatrix columnas filas)	   
 ;genera matrix llena de ?. (x,y) de la matriz
@@ -76,10 +92,10 @@
 )
 
 
-;; genera listas llenas de ?
-;; se llama genFILA pero funciona para columnas tambien
 
 (define (genFila n)
+;; genera listas llenas de ?
+;; se llama genFILA pero funciona para columnas tambien
 	(genFila_aux n '())
 )
 
@@ -185,7 +201,15 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	extra
+;;	general
 
+(define (len_list l)
+	(cond
+		((eq? l '())0) 
+		(#t (+ 1 (len_list (cdr l))))
+	)
+)
 
 (define (fact n)
   (if (= n 0)
@@ -193,10 +217,20 @@
       (* n (fact (- n 1)))))
 
 
+(define (decimals n)
+	(cond
+		((< n 10)10)
+		(#t (* 10 (decimals (fxmod n 10))))
 
+	  )
+  )
 
-
-
+(define (n-elem n l)
+  (cond
+    ((= n 0)(car l))
+	(#t (n-elem (- n 1)(cdr l)))
+   )
+)
 
 
 
