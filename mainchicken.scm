@@ -41,36 +41,61 @@
 )
 
 
-(define(word_inserter position word wlist)
-; recieves random, from there it tries to insert
-; a word by iterating over the whole list
-	  (
-		word_inserter_aux(positionfinal position word wlist )
-	  )
-  #t)
+(define(word_inserter random word wlist)
+; recieves random, word and  matrix,tries to insert word  
+; by iterating over the whole matrix, starts at rand position/direction
+; returns random (new or old?) and matrix
+	( word_inserter_aux(positionfinal position word wlist ))
+	#t)
+; condicion de parada? cuando termina de recorrer la matrix
+; hacia donde recorre la matriz?
+; si llega al final de la matriz debe volver al otro lado
 
-(define(word_inserter position word wlist direction wlist)
-; inserts a word into the matrix position at the direction directed
+
+; must be called before word_inserer_dir
+(define (can_word_inserter_dir? position word wlist finaldir currentdir)
 	(cond
-	  	((can_insert_word? position word wlist direction) insert_word word direction position)
-		(#t #f)
+		((can_insert_word? word currentdir position wlist)#t)
+		((eq? currentdir finaldir)#f)
+		(#t (can_word_inserter_dir? position word wlist finaldir (next_dir currentdir)))))
+; returns #t or #f
 
-	)
-#t)
+; tries to insert word at position, tries all directions, final dir is
+; last dir thatit will try.
+(define (word_inserter_dir position word wlist finaldir currentdir)
+	(cond
+		((can_insert_word? word currentdir position wlist) 
+			(insert_word word currentdir position wlist))
+		((eq? currentdir finaldir)#f)
+		(#t (word_inserter_dir position word wlist finaldir (next_dir currentdir)))))
+; if (next_dir == finalpos) stop recursion
+; else : try fit : success stop : fail recursion.
+; returns wlist
 
+
+(define (next_dir direction)
+	(cond
+		((eq? direction 'n ) 's )
+		((eq? direction 's ) 'e )
+		((eq? direction 'e ) 'w )
+		((eq? direction 'w ) 'ne)
+		((eq? direction 'ne) 'nw)
+		((eq? direction 'nw) 'se)
+		((eq? direction 'se) 'sw)
+		((eq? direction 'sw) 'n )))
+ 
 
 ; checks whether a word fits in the puzzle or not
 (define (can_insert_word? word direction position wlist)
 	(cond
-	((equal? word '()) #t)
-	((eq? (position_available position wlist) #f) #f)
-	((or 
-		(eq? (get_symbol position wlist) '?)
-		(eq? (get_symbol position wlist) (car word)))
-			(can_insert_word? 
-				(cdr word) direction (next_position direction position) wlist))
-	(#t #t)
-	))
+		((equal? word '()) #t)
+		((eq? (position_available position wlist) #f) #f)
+		((or 
+			(eq? (get_symbol position wlist) '?)
+			(eq? (get_symbol position wlist) (car word)))
+				(can_insert_word? 
+					(cdr word) direction (next_position direction position) wlist))
+		(#t #f)))
 ; is word empty, return tru (we confirmed all word letters)
 ; is current position out of range, return fals (word dont fit)
 ; is current position a ? char, continue next letter
@@ -93,6 +118,7 @@
 ; checks if word is empty, it's finished
 ; inserts car word into current position
 ; repeats with cdr word
+; returns wlist
 
 ; computes next (x y) position based on an (x y) position and a direction
 (define(next_position direction position)
