@@ -68,15 +68,39 @@
 ; recieves random, word and  matrix,tries to insert word  
 ; by iterating over the whole matrix, starts at rand position/direction
 ; just do "nextpos" from final pos in order to get the input for currentpos
-(define(word_inserter_matrix word wlist finalpos currentpos randomnum)
+(define(word_inserter_matrix words wlist finalpos currentpos randomnum)
 	(cond
-		((can_word_inserter_dir? currentpos word wlist 
+		((equal? words '()) wlist)
+		((can_word_inserter_dir? currentpos (car words) wlist 
 		 (random_dir randomnum) (next_dir (random_dir randomnum)))
 			;return value:
-			(word_inserter_dir currentpos word wlist 
-			(random_dir randomnum) (next_dir (random_dir randomnum))))
+				(cond
+				((eq? #f 
+					(word_inserter_matrix 
+					(cdr words)
+					(word_inserter_dir currentpos (car words) wlist 
+						(random_dir randomnum) (next_dir (random_dir randomnum)))
+					(gen_xy randomnum wlist) 
+					(next_pos (gen_xy randomnum wlist) wlist)				 
+					(random randomnum))
+					)
+					(cond
+						((equal? currentpos finalpos)#f)
+						(#t (word_inserter_matrix words wlist 
+							finalpos (next_pos currentpos wlist) randomnum)))
+						)
+				
+				(#t 
+					(word_inserter_matrix 
+					(cdr words)
+					(word_inserter_dir currentpos (car words) wlist 
+						(random_dir randomnum) (next_dir (random_dir randomnum)))
+					(gen_xy randomnum wlist) 
+					(next_pos (gen_xy randomnum wlist) wlist)				 
+					(random randomnum)))
+				))
 		((equal? currentpos finalpos)#f)
-		(#t (word_inserter_matrix word wlist 
+		(#t (word_inserter_matrix words wlist 
 			finalpos (next_pos currentpos wlist) randomnum)))
 	)
 ; condicion de parada? cuando termina de recorrer la matrix
