@@ -37,9 +37,25 @@ sopa de letras normal:
 				lay thing in direction
 				first check if it can be laid in direction
 
+		
+		proceso de insertar:
+			recibe un numero random
+			genera el siguiente numero random
+			genera posicion y direccion random
+				trata de insertar palabra en matriz, empezando por 
+				direccion y posicion random, y luego el resto de matriz
+				si falla devuelve false
+				si lo logra y es la ultima palabra devuelve true y la lista
+				si lo logra y no es la ultim palabra repite el proceso con la siguiente
+				palabra, pasa el random que genera
+					de no ser posible sigue insertando la palabra en las posiciones
+					que no haya probado
+					si llega al final devuelve false 
+			
 
-
-
+		random position
+		random direction
+		rand_list randnum wlist
 
 
 

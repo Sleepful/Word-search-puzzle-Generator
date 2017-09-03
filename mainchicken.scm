@@ -40,19 +40,51 @@
 	)
 )
 
+;devuelve la siguiente posicion x,y
+(define(next_pos position wlist)
+	(cond
+		((< (+ (car position) 1)(len_list wlist)) 
+			(cons (+ (car position) 1)(cdr position))) ;mueve x + 1
+		((< (+ (cadr position) 1)(len_list wlist))
+			(cons 0 (cons(+ 1 (cadr position))'()))) ;mueve y + 1
+		(#t '(0 0)) ;mueve al principio de matriz
+	)	
+)
 
-(define(word_inserter random word wlist)
+
+;must be called before calling the word_inserter_matrix
+(define(can_word_inserter_matrix? word wlist finalpos currentpos randomnum)
+	(cond
+		((can_word_inserter_dir? currentpos word wlist 
+		 (random_dir randomnum) (next_dir (random_dir randomnum)))
+			;return value:
+			#t)
+		((equal? currentpos finalpos)#f)
+		(#t (can_word_inserter_matrix? word wlist 
+			finalpos (next_pos currentpos wlist) randomnum)))
+	)
+
+
 ; recieves random, word and  matrix,tries to insert word  
 ; by iterating over the whole matrix, starts at rand position/direction
-; returns random (new or old?) and matrix
-	( word_inserter_aux(positionfinal position word wlist ))
-	#t)
+; just do "nextpos" from final pos in order to get the input for currentpos
+(define(word_inserter_matrix word wlist finalpos currentpos randomnum)
+	(cond
+		((can_word_inserter_dir? currentpos word wlist 
+		 (random_dir randomnum) (next_dir (random_dir randomnum)))
+			;return value:
+			(word_inserter_dir currentpos word wlist 
+			(random_dir randomnum) (next_dir (random_dir randomnum))))
+		((equal? currentpos finalpos)#f)
+		(#t (word_inserter_matrix word wlist 
+			finalpos (next_pos currentpos wlist) randomnum)))
+	)
 ; condicion de parada? cuando termina de recorrer la matrix
 ; hacia donde recorre la matriz?
 ; si llega al final de la matriz debe volver al otro lado
 
 
-; must be called before word_inserer_dir
+; must be called before word_inserter_dir
 (define (can_word_inserter_dir? position word wlist finaldir currentdir)
 	(cond
 		((can_insert_word? word currentdir position wlist)#t)
@@ -61,7 +93,7 @@
 ; returns #t or #f
 
 ; tries to insert word at position, tries all directions, final dir is
-; last dir thatit will try.
+; last dir that it will try.
 (define (word_inserter_dir position word wlist finaldir currentdir)
 	(cond
 		((can_insert_word? word currentdir position wlist) 
@@ -156,7 +188,8 @@
 
 (define (abecedario)'(a b c d e f g h i j k l r m n o p q r s t u v w x y z))
 
-(define(random_dir) #t)
+(define(random_dir randnum) 
+	(rand_list randnum (direction)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
