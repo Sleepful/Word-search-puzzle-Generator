@@ -9,8 +9,6 @@
 
 
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	general
 
@@ -18,6 +16,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	soup letter
+(define(func)#t)
 
 
 (define(word_list_zealot wlist randstep mlist)
@@ -30,22 +29,100 @@
 ; return #f if all recursion fails
 ; reuse random (returns it too)
 	(let*
-		((randstep 
+		((randstep	 
 		   	(random randstep))
 			(position(gen_xy randstep wlist)))
 		(cond
-			((word_inserter position word)word_list_zealot)
+			((word_inserter position word) word_list_zealot) 
+			;word inserter, if fails then backtrack
 			(#t(#t randstep))
 		)
 	)
 )
 
 
-(define(word_inserter position word) #t)
+(define(word_inserter position word wlist)
+; recieves random, from there it tries to insert
+; a word by iterating over the whole list
+	  (
+		word_inserter_aux(positionfinal position word wlist )
+	  )
+  #t)
 
-(define(insert_word word direction position) #t)
+(define(word_inserter position word wlist direction wlist)
+; inserts a word into the matrix position at the direction directed
+	(cond
+	  	((can_insert_word? position word wlist direction) insert_word word direction position)
+		(#t #f)
 
-(define(can_insert_word? word direction position) #t)
+	)
+#t)
+
+
+; checks whether a word fits in the puzzle or not
+(define (can_insert_word? word direction position wlist)
+	(cond
+	((equal? word '()) #t)
+	((eq? (position_available position wlist) #f) #f)
+	((or 
+		(eq? (get_symbol position wlist) '?)
+		(eq? (get_symbol position wlist) (car word)))
+			(can_insert_word? 
+				(cdr word) direction (next_position direction position) wlist))
+	(#t #t)
+	))
+; is word empty, return tru (we confirmed all word letters)
+; is current position out of range, return fals (word dont fit)
+; is current position a ? char, continue next letter
+; is current position the same char as the cuurrent char in the word, 
+;	continue next letter
+; else, return fals (position already has another word that doesnt match)
+
+
+; inserts a word into the matrix, it handles position and direction
+; check if word can be inserted before calling this function (can_insert_word?)
+(define(insert_word word direction position wlist) 
+	(cond
+		((equal? word '()) wlist)
+		(#t (insert_word 
+				(cdr word)
+				direction
+				(next_position direction position)
+				(set_symbol position wlist (car word))))
+	))
+; checks if word is empty, it's finished
+; inserts car word into current position
+; repeats with cdr word
+
+; computes next (x y) position based on an (x y) position and a direction
+(define(next_position direction position)
+	(cond
+		((eq? direction 's)
+			(cons (car position)(cons (+ (cadr position) 1)'())))
+		((eq? direction 'n)
+			(cons (car position)(cons (- (cadr position) 1)'())))
+		((eq? direction 'w)
+			(cons (- (car position) 1)(cdr position)))
+		((eq? direction 'e)
+			(cons (+ (car position) 1)(cdr position)))
+        ((eq? direction 'sw)
+			(cons (- (car position) 1)(cons (+ (cadr position) 1)'())))
+		((eq? direction 'ne)
+			(cons (+ (car position) 1)(cons (- (cadr position) 1)'())))
+		((eq? direction 'se)
+			(cons (+ (car position) 1)(cons (+ (cadr position) 1)'())))
+		((eq? direction 'nw)
+			(cons (- (car position) 1)(cons (- (cadr position) 1)'())))
+		))
+
+; checks whether the position is inside or outside of
+; the matrix and returns #t or #f accordingly
+(define(position_available position wlist)
+	(and
+		(< (car position) (len_list wlist)) 
+		(< (cadr position) (len_list(car wlist))) 
+		(< -1(car position))
+		(< -1(cadr position))))
 
 (define(fill_matrix_with_letters)#t)
 
@@ -59,6 +136,38 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	general matrix
 
+(define (get_symbol position wlist)
+; gets symbol in a matrix at position (x y)
+	(cond
+		; itera sobre x
+		((= (car position) 0)
+	  		(cond
+			  ; condicion terminal
+			  ((= (len_list position) 1) (car wlist))
+			  ; solo llega aqui una vez, cuando encuentra el x
+			  (#t (get_symbol (cdr position)(car wlist)))))
+	   (#t (get_symbol (cons (- (car position) 1)(cdr position)) (cdr wlist)))
+	))
+
+(define (set_symbol position wlist symbol)
+; sets symbol in a matrix at position (x y)
+; returns back the new list
+	(cond
+		; itera sobre x
+	  	((= (car position) 0)
+	  		(cond
+			  ; condicion terminal
+			  ((= (len_list position) 1) (cons symbol (cdr wlist)))
+			  ; solo llega aqui una vez, cuando encuentra el x
+			  (#t (cons
+				(set_symbol (cdr position)(car wlist) symbol)
+				(cdr wlist)))))
+	   (#t (cons
+	   			(car wlist)
+				(set_symbol (cons (- (car position) 1)(cdr position)) (cdr wlist) symbol)))
+	))
+
+
 (define(rand_list randnum wlist)
 ; devuelve un elem random de un list
  (n-elem(fxmod randnum (len_list wlist)) wlist)
@@ -67,10 +176,13 @@
 (define(gen_xy randnum wlist)
 ; apartir de un random, genera una posicion
 ; (x y) basado en el tamanho de la matriz
+; wlist es una lista hecha de listas, se asume que
+; representa una matriz cuadrada ya que solo usa
+; el tamano de la primera lista para determinar el tamanho de la matriz
 	(cons
 	  	
 		(fxmod randnum (len_list wlist))
-		(fxmod (fx/ randnum 10) (len_list (car wlist)))
+		(cons (fxmod (fx/ randnum 10) (len_list (car wlist)))'())
 		
 	)
 )
