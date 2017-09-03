@@ -16,29 +16,36 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	soup letter
-(define(func)#t)
+; no se aceptan matrices menores a 1x1
+; seeds de menos de 4 digitos se considera behavior indefinido
+(define(word_puzzle_generator words size seed)#t)
 
 
-(define(word_list_zealot wlist randstep mlist)
-; recieves word list
-; goes through it linearly
-; tries to insert word
-; if succesful repeat with rest of list
-; return #t when complete
-; if fail return #f and backtrack
-; return #f if all recursion fails
-; reuse random (returns it too)
-	(let*
-		((randstep	 
-		   	(random randstep))
-			(position(gen_xy randstep wlist)))
-		(cond
-			((word_inserter position word) word_list_zealot) 
-			;word inserter, if fails then backtrack
-			(#t(#t randstep))
-		)
-	)
-)
+
+
+; falta la main funcion de arriba ^
+; y falta el metodo que le haga fill a los ? de la matriz
+
+
+
+; generates a matrix of size (x y) filled with '?
+(define (question_mark_m size ycolum)
+	(cond
+		((eq? (cadr size) 0) ;primero se crean las filas (y)
+			(cond
+				((eq? (car size) 0) '()) ;luego se crean las columnas con la fila
+				(#t(cons ycolum
+					(question_mark_m (cons (- (car size) 1)(cdr size)) 
+						ycolum)))
+				))
+		(#t
+			(question_mark_m (cons (car size)(cons (- (cadr size)1)'())) 
+				(cons '? ycolum)))
+		))
+
+(define (question_mark_matrix size)
+	(question_mark_m size '() ))
+
 
 ;devuelve la siguiente posicion x,y
 (define(next_pos position wlist)
