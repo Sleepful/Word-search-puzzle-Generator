@@ -45,7 +45,7 @@
 	(cond
 		((< (+ (car position) 1)(len_list wlist)) 
 			(cons (+ (car position) 1)(cdr position))) ;mueve x + 1
-		((< (+ (cadr position) 1)(len_list wlist))
+		((< (+ (cadr position) 1)(len_list (car wlist)))
 			(cons 0 (cons(+ 1 (cadr position))'()))) ;mueve y + 1
 		(#t '(0 0)) ;mueve al principio de matriz
 	)	
@@ -265,7 +265,7 @@
 	(cons
 	  	
 		(fxmod randnum (len_list wlist))
-		(cons (fxmod (fx/ randnum 10) (len_list (car wlist)))'())
+		(cons (fxmod (random randnum) (len_list (car wlist)))'())
 		
 	)
 )
