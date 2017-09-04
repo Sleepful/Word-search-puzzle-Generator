@@ -23,8 +23,8 @@ words size seed
        
        
 
-to run the program you can use chicken, a scheme implementation:
-https://www.call-cc.org/
+To run the program you can use chicken, a scheme implementation -https://www.call-cc.org/- 
+
 Run the interpreter in the cmd, like so: 
 
 `$ csi`
