@@ -24,7 +24,9 @@ seed: this is the seed used to give the generation of the puzzle some randomness
 to run the program you can use chicken, a scheme implementation:
 https://www.call-cc.org/
 Run the interpreter in the cmd, like so: 
+
 $ csi
+
 Then you just need to load the source file and call the functions:
 > (load "mainchicken.scm")
 > (word_puzzle_generator_show '((u n o)(d o s)(t r e s)) '(5 5) 37274)
