@@ -1,31 +1,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; main loops
-
-
-;;;;;;;; sopa de letras silvestre
-
-
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;	general
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	soup letter
 ; no se aceptan matrices menores a 1x1
 ; seeds de menos de 4 digitos se considera behavior indefinido
-(define(word_puzzle_generator words size seed)#t)
+(define(word_puzzle_generator_show words size seed)
+	(word_inserter_matrix 
+		words 
+		(question_mark_matrix size)
+		(gen_xy seed (question_mark_matrix size)) 
+		(next_pos(gen_xy seed (question_mark_matrix size))(question_mark_matrix size)) 
+		seed)
+	)
 
 
-
-
-; falta la main funcion de arriba ^
-; y falta el metodo que le haga fill a los ? de la matriz
-
+(define(word_puzzle_generator words size seed)
+	(fill_matrix_with_letters (word_inserter_matrix 
+		words 
+		(question_mark_matrix size)
+		(gen_xy seed (question_mark_matrix size)) 
+		(next_pos(gen_xy seed (question_mark_matrix size))(question_mark_matrix size)) 
+		seed) seed)
+	)
+;(fill_matrix_with_letters wlist randnum)
 
 
 ; generates a matrix of size (x y) filled with '?
@@ -213,7 +208,28 @@
 		(< -1(car position))
 		(< -1(cadr position))))
 
-(define(fill_matrix_with_letters)#t)
+(define(fill_matrix_with_letters wlist randnum)
+	(fill_matrix_l wlist '(1 0) '(0 0) (random randnum))
+)
+
+(define (fill_matrix_l wlist currentpos finalpos randnum)
+	(cond
+		((equal? currentpos finalpos) 
+			(cond
+				((eq? (get_symbol currentpos wlist) '?)
+						(set_symbol currentpos wlist (rand_list randnum (abecedario)))
+						)
+				(#t wlist)	
+					))
+		((eq? (get_symbol currentpos wlist) '?)
+			(fill_matrix_l 
+				(set_symbol currentpos wlist (rand_list randnum (abecedario)))
+				(next_pos currentpos wlist)
+				finalpos
+				(random randnum)
+				))
+		(#t (fill_matrix_l wlist (next_pos currentpos wlist) finalpos (random randnum)))
+	))
 
 (define (direction)'(n s e w nw ne sw se))
 
