@@ -15,7 +15,7 @@ both functions recieve the same paramters, in the following order:
 
 `seed:` this is the seed used to give the generation of the puzzle some randomness,
        it uses a simple pseudo random generator so giving the same seed will always generate
-       the same puzzle.
+       the same puzzle. Should be longer than 3 digits.
        
        
 
