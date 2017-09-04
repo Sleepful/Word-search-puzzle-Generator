@@ -27,6 +27,12 @@
 		seed) seed)
 	)
 
+; checka si una matriz respuesta (matriz de puzzle con espacios no usados usando '?')
+; es igual a la matriz generada, devuelve #t si son iguales y significa que la 
+; respuesta es correcta
+(define(word_puzzle_checker words size seed answer)
+		(equal? answer (word_puzzle_generator_show words size seed)))
+
 ;;
 ;; estos dos metodos son los dos metodos principales
 ;; el resto del codigo tiene funciones auxiliares
