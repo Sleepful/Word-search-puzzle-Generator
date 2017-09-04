@@ -1,7 +1,11 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	soup letter
-; no se aceptan matrices menores a 1x1
-; seeds de menos de 4 digitos se considera behavior indefinido
+;; no se aceptan matrices menores a 1x1
+;; seeds de menos de 4 digitos se considera behavior indefinido
+
+; word_puzzle_generator_show genera la sopa de letras pero deja
+; los espacios vacios con signos de pregunta para ver facilmente
+; la respuesta
 (define(word_puzzle_generator_show words size seed)
 	(word_inserter_matrix 
 		words 
@@ -11,7 +15,9 @@
 		seed)
 	)
 
-
+; word_puzzle_generator genera la sopa de letras pero
+; llegna los espacios vacios con letras random para que sea una
+; sopa de letras estandard
 (define(word_puzzle_generator words size seed)
 	(fill_matrix_with_letters (word_inserter_matrix 
 		words 
@@ -20,7 +26,12 @@
 		(next_pos(gen_xy seed (question_mark_matrix size))(question_mark_matrix size)) 
 		seed) seed)
 	)
-;(fill_matrix_with_letters wlist randnum)
+
+;;
+;; estos dos metodos son los dos metodos principales
+;; el resto del codigo tiene funciones auxiliares
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 ; generates a matrix of size (x y) filled with '?
