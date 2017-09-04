@@ -305,7 +305,6 @@
 )
 
 
-
 (define(genMatrix columnas filas)	   
 ;genera matrix llena de ?. (x,y) de la matriz
 ;columnas y filas representan las dimensiones
@@ -321,7 +320,6 @@
 )
 
 
-
 (define (genFila n)
 ;; genera listas llenas de ?
 ;; se llama genFILA pero funciona para columnas tambien
@@ -333,9 +331,6 @@
 	        (#t (cons '? (genFila_aux (- n 1) lista)))
 	)
 )
-
-
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
