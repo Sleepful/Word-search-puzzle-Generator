@@ -30,9 +30,12 @@ Run the interpreter in the cmd, like so:
 `$ csi`
 
 Then you just need to load the source file and call the functions:
-`> (load "mainchicken.scm")`
-`> (word_puzzle_generator_show '((u n o)(d o s)(t r e s)) '(5 5) 37274)`
-`> (word_puzzle_generator '((u n o)(d o s)(t r e s)) '(5 5) 37274)`
+
+`> (load "mainchicken.scm")
+
+> (word_puzzle_generator_show '((u n o)(d o s)(t r e s)) '(5 5) 37274)
+
+> (word_puzzle_generator '((u n o)(d o s)(t r e s)) '(5 5) 37274)`
 
 
 # Implementation 
