@@ -7,7 +7,6 @@ A program made in Scheme, which is a Lisp implementation.
 
 both functions recieve the same paramters, in the following order:
 
-words size seed
 
 `words:` this is a list of words that are going to go inside the puzzle
         each word is represented as a list, eg: '((h e  l l o)(y e s))
